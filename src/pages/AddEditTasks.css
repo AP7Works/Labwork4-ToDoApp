@@ -1,0 +1,11 @@
+/* src/pages/AddEditTasks.css */
+.add-edit-tasks-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 16px 0;
+}
+
+.add-edit-tasks-content {
+    padding: 16px;
+    background-color: var(--light-cream);
+}
