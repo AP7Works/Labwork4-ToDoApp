@@ -1,197 +1,191 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonInput,
   IonButton,
-  IonList,
   IonItem,
   IonLabel,
-  IonCheckbox,
-  IonModal,
-  IonDatetime,
-  IonToast,
+  IonSelect,
+  IonSelectOption,
+  IonIcon,
 } from '@ionic/react';
+import { calendarOutline } from 'ionicons/icons';
 import { db } from '../firebaseConfig';
-import {
-  collection,
-  addDoc,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  updateDoc,
-} from 'firebase/firestore';
-import { LocalNotifications } from '@capacitor/local-notifications';
+import { collection, addDoc } from 'firebase/firestore';
+import { Task } from '../types';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './AddEditTasks.css';
+import { enGB } from 'date-fns/locale';
+import { ellipse } from 'ionicons/icons';
+import Header from '../components/Header';
 import { useHistory } from 'react-router-dom';
-import { Task } from '../types'; // Import Task interface
+import { Timestamp } from 'firebase/firestore';
 
 const AddEditTasks: React.FC<{
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }> = ({ tasks, setTasks }) => {
   const [newTask, setNewTask] = useState('');
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [reminderDate, setReminderDate] = useState('');
-  const [showToast, setShowToast] = useState(false);
+  const [priority, setPriority] = useState<string | undefined>(undefined);
+  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [confirmDate, setConfirmDate] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const history = useHistory();
 
-  const scheduleDailyReminder = async () => {
-    const now = new Date();
-    const notificationTime = new Date(now.getTime() + 1 * 60 * 1000); // 1 minute later
-
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Daily Task Reminder',
-          body: 'You have tasks to complete! Check your list!',
-          id: 1,
-          schedule: {
-            every: 'minute',
-            at: notificationTime,
-          },
-          actionTypeId: '',
-          extra: null,
-        },
-      ],
-    });
-  };
-
   const handleAddTask = async () => {
-    if (newTask.trim()) {
-      const newTaskData = { text: newTask, completed: false, reminderSet: false };
-
-      try {
-        const docRef = await addDoc(collection(db, 'tasks'), newTaskData);
-        setTasks([...tasks, { id: docRef.id, ...newTaskData }]);
-        setNewTask(''); // Clear the input field
-        await scheduleDailyReminder();
-      } catch (error) {
-        console.error('Error adding task: ', error);
-      }
+    if (!newTask.trim() || !priority || !dueDate) {
+      setError("All fields are required.");
+      return;
     }
-  };
 
-  const handleDeleteTask = async (id: string) => {
+    setError(null);
+
+    // Ensure priority and dueDate are included in the new task
+    const newTaskData: Omit<Task, 'id'> = {
+      text: newTask,
+      priority: priority as "high" | "medium" | "low",
+      dueDate: dueDate, // Keep dueDate as Date
+      completed: false,
+    };
+
     try {
-      await deleteDoc(doc(db, 'tasks', id));
-    } catch (error) {
-      console.error('Error deleting task: ', error);
-    }
-  };
-
-  const handleToggleComplete = async (id: string, currentStatus: boolean) => {
-    try {
-      const taskRef = doc(db, 'tasks', id);
-      await updateDoc(taskRef, { completed: !currentStatus });
-    } catch (error) {
-      console.error('Error updating task: ', error);
-    }
-  };
-
-  const openReminderModal = (task: Task) => {
-    setSelectedTask(task);
-  };
-
-  const closeReminderModal = () => {
-    setSelectedTask(null);
-    setReminderDate('');
-  };
-
-  const saveReminder = async (date: string) => {
-    if (selectedTask) {
-      const taskRef = doc(db, 'tasks', selectedTask.id);
-      await updateDoc(taskRef, { reminderSet: true }); // Update reminderSet to true
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            title: 'Task Reminder',
-            body: `Don't forget: ${selectedTask.text}`,
-            id: new Date().getTime(),
-            schedule: { at: new Date(date) },
-            actionTypeId: '',
-            extra: null,
-          },
-        ],
+      // Add task to Firestore
+      const docRef = await addDoc(collection(db, 'tasks'), {
+        ...newTaskData,
+        dueDate: Timestamp.fromDate(dueDate), // Convert to Timestamp
       });
-      closeReminderModal();
-      setShowToast(true); // Show confirmation message
+
+      // Add the task to the local state
+      setTasks([...tasks, { id: docRef.id, ...newTaskData }]);
+      setNewTask('');
+      setPriority(undefined);
+      setDueDate(null);
+      setConfirmDate(false);
+      history.push('/home');
+    } catch (error) {
+      console.error('Error adding task: ', error);
     }
   };
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'tasks'), (snapshot) => {
-      const fetchedTasks = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        text: doc.data().text || '',
-        completed: doc.data().completed || false,
-        reminderSet: doc.data().reminderSet || false,
-      }));
-      setTasks(fetchedTasks);
-    });
+  const handleCalendarClick = () => {
+    setShowCalendar(!showCalendar);
+    if (!showCalendar) {
+      setConfirmDate(false);
+    }
+  };
 
-    return () => unsubscribe(); // Clean up the listener on unmount
-  }, [setTasks]);
+  const handleConfirmDate = () => {
+    setConfirmDate(true);
+    setShowCalendar(false);
+  };
+
+  const renderPriorityBullet = (priority: string | undefined) => {
+    let color = '';
+    switch (priority) {
+      case 'high':
+        color = '#FF9393';
+        break;
+      case 'medium':
+        color = '#FEB34A';
+        break;
+      case 'low':
+        color = '#7ACDB6';
+        break;
+      default:
+        color = '';
+        break;
+    }
+
+    return (
+      <IonIcon
+        icon={ellipse}
+        style={{
+          color: color,
+          fontSize: '12px',
+          marginLeft: '8px',
+        }}
+      />
+    );
+  };
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Add or Edit your Tasks</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonInput
-          value={newTask}
-          placeholder="Add new task"
-          onIonChange={(e) => setNewTask(e.detail.value!)}
-        />
-        <IonButton onClick={handleAddTask}>Add Task</IonButton>
-        <IonList>
-          {tasks.map((task) => (
-            <IonItem key={task.id}>
-              <IonCheckbox
-                slot="start"
-                checked={task.completed}
-                onIonChange={() => handleToggleComplete(task.id, task.completed)}
-              />
-              <IonLabel>{task.text}</IonLabel>
-              <IonButton color="danger" onClick={() => handleDeleteTask(task.id)}>
-                Delete
-              </IonButton>
-              {task.reminderSet ? (
-                <IonButton disabled>Reminder Set</IonButton>
-              ) : (
-                <IonButton onClick={() => openReminderModal(task)}>Add Reminder</IonButton>
-              )}
-            </IonItem>
-          ))}
-        </IonList>
-        {selectedTask && (
-          <IonModal isOpen={true} onDidDismiss={closeReminderModal}>
-            <IonDatetime
-              value={reminderDate}
-              onIonChange={(e) => {
-                const value = e.detail.value;
-                if (typeof value === 'string') {
-                  setReminderDate(value);
-                } else if (Array.isArray(value)) {
-                  setReminderDate(value[0]); // Or handle it as needed
-                }
-              }}
+      <Header title="Add a new task" />
+      <IonContent className="task-page-content">
+        <div className="task-entry-box">
+          <IonItem>
+            <IonLabel position="floating"></IonLabel>
+            <IonInput
+              value={newTask}
+              placeholder="Write your task"
+              onIonChange={(e) => setNewTask(e.detail.value!)}
             />
-            <IonButton onClick={() => saveReminder(reminderDate)}>Save Reminder</IonButton>
-            <IonButton onClick={closeReminderModal}>Cancel</IonButton>
-          </IonModal>
-        )}
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message="Reminder added successfully!"
-          duration={2000}
-        />
+          </IonItem>
+          <IonItem>
+            <IonLabel position="floating"></IonLabel>
+            <IonSelect
+              value={priority}
+              placeholder="Priority"
+              onIonChange={(e) => setPriority(e.detail.value)}
+            >
+              <IonSelectOption value="high">
+                High
+                {renderPriorityBullet('high')}
+              </IonSelectOption>
+              <IonSelectOption value="medium">
+                Medium
+                {renderPriorityBullet('medium')}
+              </IonSelectOption>
+              <IonSelectOption value="low">
+                Low
+                {renderPriorityBullet('low')}
+              </IonSelectOption>
+            </IonSelect>
+            {priority && renderPriorityBullet(priority)}
+          </IonItem>
+
+          <IonItem lines="none" style={{ position: 'relative' }}>
+            <IonIcon
+              icon={calendarOutline}
+              className="task-calendar-icon"
+              onClick={handleCalendarClick}
+            />
+            {showCalendar && (
+              <div className="task-date-picker-container">
+        <DatePicker
+  selected={dueDate}
+  onChange={(date: Date | null) => setDueDate(date)} // Add explicit type
+  dateFormat="dd/MM/yyyy"
+  placeholderText="Due Date"
+  className="task-date-picker"
+  inline
+  locale={enGB}
+/>
+
+                {dueDate && !confirmDate && (
+                  <IonButton onClick={handleConfirmDate} className="task-confirm-date-button">
+                    OK
+                  </IonButton>
+                )}
+              </div>
+            )}
+            {confirmDate && dueDate && (
+              <div className="task-date-display">
+                {dueDate.toLocaleDateString()}
+              </div>
+            )}
+          </IonItem>
+
+          {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
+
+          <IonButton className="task-submit-button" onClick={handleAddTask}>
+            ADD TASK
+          </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

@@ -1,0 +1,36 @@
+/* Background color for the AboutContact content */
+.about-contact-content {
+    background-color: #E3E4E8; /* Grey background */
+    padding: 20px; /* Add padding around the content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* Styling for the headers and paragraphs */
+  .about-contact-content h1,
+  .about-contact-content h2 {
+    color: #333; /* Dark grey text color */
+  }
+  
+  .about-contact-content p {
+    color: #555; /* Slightly lighter grey text color */
+    margin-bottom: 20px; /* Space between paragraphs */
+  }
+  /* AboutContact.css */
+.contact-heading {
+    font-size: 25px !important;  /* Set a fixed font size of 30px */
+        margin: 20px 0; /* Optional: Add spacing around the text */
+  }
+  .icon-container {
+    display: flex;
+    gap: 15px;  /* Add space between each icon */
+  }
+  .reach-out-text {
+    font-size: 24px;
+    margin-top: 10px;
+    color: black !important 
+  }
+
+

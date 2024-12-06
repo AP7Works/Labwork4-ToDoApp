@@ -1,36 +1,63 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle } from '@ionic/react';
+import './Header.css'; // Correct import path
 
-const Header = () => {
+interface HeaderProps {
+  title?: string; // Optional title prop, defaults to "Home"
+  showMenuButton?: boolean; // Whether to show the menu button
+}
+
+const Header: React.FC<HeaderProps> = ({ title = '', showMenuButton = true }) => {
   const location = useLocation();
 
-  const renderHeaderContent = () => {
-    switch (location.pathname) {
-      case '/home':
-        return <IonTitle>My Task List</IonTitle>;
-      case '/add-edit-tasks':
-        return <IonTitle>Add or Edit your Tasks</IonTitle>;
-      default:
-        return null;
-    }
-  };
+  const getHeaderContent = () => {
+    if (location.pathname === '/home') {
+      const today = new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
 
-  const shouldShowHeader = () => {
-    return location.pathname === '/home' || location.pathname === '/add-edit-tasks';
+      return (
+        <div className="header-content">
+          <div className="header-title">Welcome to your tasks</div>
+          <div className="header-date">
+            <span className="header-today">TODAY</span> is {today}
+          </div>
+        </div>
+      );
+    } else if (location.pathname === '/about-contact') {
+      return 'About & Contact';
+    } else if (location.pathname === '/add-edit-tasks') {
+      return 'Add new task';
+    }
+    return title || 'Home';
   };
 
   return (
-    shouldShowHeader() && (
-      <IonHeader>
-        <IonToolbar>
+    <IonHeader
+      className={`custom-header ${location.pathname === '/about-contact' ? 'custom-header-aboutContact' : ''} ${
+        location.pathname === '/add-edit-tasks' ? 'custom-header-add-tasks' : ''
+      }`}
+    >
+      <IonToolbar>
+        {showMenuButton && (
           <IonButtons slot="start">
-            <IonMenuButton style={{ color: 'black' }} />
+            <IonMenuButton className="ion-menu-button" />
           </IonButtons>
-          {renderHeaderContent()}
-        </IonToolbar>
-      </IonHeader>
-    )
+        )}
+<IonTitle
+  className={`header-ion-title ${location.pathname === '/about-contact' ? 'ion-title-aboutContact' : ''} ${
+    location.pathname === '/home' ? 'ion-title-home' : ''
+  } ${location.pathname === '/add-edit-tasks' ? 'ion-title-add-tasks' : ''}`}
+>
+  {getHeaderContent()}
+</IonTitle>
+
+      </IonToolbar>
+    </IonHeader>
   );
 };
 

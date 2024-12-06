@@ -1,0 +1,144 @@
+/* General body styles for the whole application */
+body {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  height: 100vh; /* Ensure the body takes the full height of the viewport */
+  display: flex;
+  flex-direction: column;
+  background-color: #E3E4E8 !important;
+}
+
+ion-page {
+  --background: #E3E4E8 !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-list {
+  --background: transparent; /* Ensure the list background inherits from parent */
+  padding-bottom: 0 !important; /* Remove any default padding */
+  margin: 0; /* Remove margin to align properly */
+}
+
+.task-list-content {
+  --background: #E3E4E8 !important; /* Grey background for the entire content area */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - var(--ion-safe-area-top) - var(--ion-safe-area-bottom)); /* Subtract safe areas */
+  padding-bottom: 20px !important; /* Space for floating add-task button */
+  box-sizing: border-box; /* Ensure padding doesn't shrink the height */
+}
+
+/* Styling for task items */
+.task-item {
+  --background: #E3E4E8 !important; 
+  --border-width: 0;
+  padding: 0;
+  margin: 0; /* Prevent gaps between items */
+}
+
+/* Task box styling */
+.task-box {
+  background-color: rgb(255, 255, 255); /* Keep the task box white */
+  padding: 30px;
+  margin-top: 40px; 
+  margin-bottom: 0px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2 ) !important; /* Adds a soft shadow at the bottom */
+  width: calc(100% - 40px); /* Ensure space around the task box */
+  max-width: 600px; /* Optional: set a maximum width */
+  box-sizing: border-box; /* Include padding in the width calculation */
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.task-details {
+  background-color: #f1f1f1; /* Light grey background */
+  border-radius: 5%; /* Rounded corners */
+  padding: 10px; /* Add spacing inside the box */
+  margin-bottom: 10px; /* Space below the grey box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow at the bottom */
+  display: flex; /* Align the bullet and text in a row */
+  align-items: center; /* Vertically center the content */
+  gap: 10px; /* Space between bullet and text */
+}
+
+/* Task header styling */
+.task-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Priority bullet styling */
+.priority-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Task text styling */
+.task-text {
+  font-size: 14px !important;
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px;
+  flex: 1;
+}
+
+/* Task due date styling */
+.task-date {
+  font-size: 14px !important;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #808080 !important; /* Grey color for the due date */
+}
+
+/* Task buttons container styling */
+.task-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+
+/* Floating Add Task button */
+.add-task-ellipse {
+  background-color: #608FE9;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Ensure it floats at the bottom-right */
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.add-task-plus {
+  font-size: 30px;
+  color: white;
+}
+
+.task-completed {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  cursor: pointer;
+  margin-left: 130px; /* This will push the content to the right */
+}
+
+.task-completed ion-icon {
+  margin-right: 8px;
+}
+
+.task-completed ion-label {
+  color: grey;
+  font-size: 14px;
+}

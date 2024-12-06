@@ -1,11 +1,147 @@
-/* src/pages/AddEditTasks.css */
-.add-edit-tasks-header {
-    font-size: 24px;
+/* Ensure full height for the body and html */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  
+  /* Custom content styling */
+  .task-page-content {
+    --background: #E3E4E8 !important; /* Set background color for the content */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Remove any default padding if needed */
+  }
+  
+  /* Center content inside the page */
+  .task-entry-box {
+    background-color: white; /* White background */
+    width: 300px;
+    height: auto;
+    max-height: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Drop shadow */
+    padding: 10px;
+    display: flex;
+    position: relative; /* Ensure the date picker can be absolutely positioned within */
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 30px; /* Add margin to push the box down */
+    margin-left: 40px;    
+    overflow: visible; 
+  }
+  
+  /* Calendar icon styling */
+  .task-calendar-icon {
+    margin-left: 0px;
+    margin-right: 0px;
+    top: 0px; /* Move the icon up */
+    cursor: pointer;
+    color: grey;
+  }
+  
+  /* Styling for the date display */
+  .task-date-display {
+    margin-left: 60px;
+    color: #000;
+  }
+  
+  /* Custom button styling */
+  .task-submit-button {
+    width: 150px; /* Set desired width */
+    height: 5px !important; /* Set button height */
+    --background: #608FE9 !important; /* Button background color */
+    color: white; /* Button text color */
+    margin: 0 auto; /* Center the button horizontally */
+    text-align: center; /* Ensure text is centered */
+    --border-radius: 5px; /* Optional: Rounded corners */
+    padding: 0; /* Remove padding to control height manually */
+    line-height: 5px !important; /* Set line-height to match height */
+    font-size: 10px !important; /* Adjust font size for better text fitting */
+    box-sizing: border-box; 
+    margin-top: 5px; /* Optional: Adjust margin as needed */
+  }
+  
+  /* Due date container styling */
+  .task-due-date-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%; /* Ensure it takes full height */
+    background-color: white;
+    position: relative; 
+    overflow: visible; 
+    z-index: 1000;
+  }
+  
+  .task-date-picker-container {
+    position: relative;  /* Use relative positioning */
+    top: 5px;  /* Position at the top */
+    width: 100%;  /* Ensure full width */
+    height: auto;
+    z-index: 1000;
+    transform: none;  /* Remove translateY to avoid pushing it out of view */
+    overflow: visible;  /* Make sure the content isn't clipped */
+    display: flex;
+    flex-direction: column;  /* Stack calendar and button vertically */
+    justify-content: center;  /* Center the content */
+    align-items: center;  /* Center the content */
+  }
+  
+  .task-date-picker {
+    width: 500px !important;  /* Increased width of the date picker */
+    height: auto;  /* Allow height to adjust dynamically */
+    overflow: visible;  /* Ensure content is visible */
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  /* Confirm date button styling */
+  .task-confirm-date-button {
+    --background: #608FE9;  /* Modify the background color */
+    width: 120px;  /* Make the button slightly wider */
+    height: 30px;  /* Adjust the height of the button */
+    font-size: 14px;  /* Larger font size */
     font-weight: bold;
-    margin: 16px 0;
-}
-
-.add-edit-tasks-content {
-    padding: 16px;
-    background-color: var(--light-cream);
-}
+    line-height: 1.5; /* Adjust the height */
+    text-align: center;
+    margin-top: 15px;  /* Add margin to separate it from the calendar */
+  }
+  
+  /* General styling for the date picker */
+  .react-datepicker {
+    font-size: 12px; /* Slightly larger font size for better readability */
+    max-width: 500px;  /* Set max-width to accommodate the larger calendar */
+    z-index: 1010; /* Bring it to the front */
+    position: relative;
+  }
+  
+  .react-datepicker__header {
+    padding: 5px; 
+  }
+  
+  .react-datepicker__day-name,
+  .react-datepicker__day,
+  .react-datepicker__day-name:hover,
+  .react-datepicker__day:hover,
+  .react-datepicker__day--keyboard-selected {
+    width: 1.2rem; /* Adjust the width of the days */
+    height: 1.2rem; /* Adjust the height of the days */
+    margin: 0.2rem; /* Adjust the margin around the days */
+    font-size: 0.9rem; /* Increase the font size of the days */
+  }
+  
+  /* Adjust the selected day */
+  .react-datepicker__day--selected {
+    position: relative; 
+    top: 0; 
+    line-height: 1.2rem;
+    background-color: #608FE9; /* Adjust background color of selected day */
+    color: #fff; /* Adjust text color of selected day */
+  }
+  

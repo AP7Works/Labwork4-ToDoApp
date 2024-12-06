@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonButton, IonImg, IonText } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import './Logout.css'; // Importing specific CSS file for the Logout page
 
 const Logout: React.FC = () => {
     const history = useHistory();
@@ -11,15 +12,19 @@ const Logout: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                </IonHeader>
+        
             <IonContent className="ion-padding">
-                <h2>Thank you for using the To-do App</h2>
-                <p>Want to go back in?</p>
-                <IonButton onClick={handleLoginClick}>Login</IonButton>
+                <IonImg src="/Logout.png" alt="Logout Illustration" className="logout-image"/>
+                <h2><b>Thank you for using ToDo. See you soon!</b></h2>
+                <IonText className="ion-text-center">
+                    <p>Want to go back in?</p>
+                </IonText>
+                <IonButton expand="block" onClick={handleLoginClick} className="logout-login-button">LOGIN</IonButton>
             </IonContent>
         </IonPage>
     );
 };
 
 export default Logout;
+
+

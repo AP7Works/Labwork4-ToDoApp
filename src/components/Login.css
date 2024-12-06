@@ -1,0 +1,64 @@
+/* Login.css */
+
+.login-image {
+    width: 100%; 
+    height: auto;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    text-align: center;
+    color: #000000; 
+    margin-bottom: 15px !important;
+    font-size: 16px !important;
+    font-family: 'Inter', sans-serif; 
+}
+
+.login-ion-padding{
+    --padding-top: 30px !important; 
+}
+/* Styling for the login button */
+/* Login.css */
+.login-button-custom {
+    background-color: #608FE9 !important;
+    color: white !important;
+    margin-top: 20px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    width: 50% !important;
+    border-radius: 5px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ion-button.login-button-custom {
+    --border-radius: 12px !important;
+    --background: #608FE9 !important; /* Ensuring the Ionic CSS variable is set */
+}
+
+/* Styling for the signup button */
+.signup-button {
+    border-color: #608FE9; 
+    color: #4A90E2;
+    --margin-top: 10px !important;
+    font-size: 14px; 
+    font-family: 'Arial', sans-serif; 
+    width: 50% !important;
+    margin-left: auto;
+    margin-right: auto;
+    --border-radius: 14px; /* Use Ionic's border-radius variable */
+    display: block; 
+    text-align: center;
+}
+
+/* Reduce spacing for the "Don't have an account?" text */
+.ion-text-center p {
+    margin-top: 20px !important; /* Adjust the gap between text and buttons */
+    margin-bottom: 0; /* Removes any extra bottom spacing */
+    font-size: 14px;
+    color: #000;
+}

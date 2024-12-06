@@ -1,0 +1,72 @@
+.custom-header ion-toolbar {
+    --min-height: 70px; /* Adjust as needed */
+    background: white;
+    padding: 0 !important;
+  }
+  
+  .ion-menu-button {
+    color: black; /* Change icon color to black */
+    font-size: 40px; /* Adjust size if needed */
+    margin-bottom: -px; 
+  }
+  
+  .ion-title-home {
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-end; 
+    justify-content: center; 
+    color: #000000; /* Black */ 
+    font-size: 1rem; 
+    text-align: right !important; 
+    font-weight: bold !important; 
+    width: 100%; 
+    padding: 0;
+  }
+  
+  .custom-header-aboutContact .ion-title-aboutContact {
+   
+    --ion-toolbar-height: 70px; /* Slightly shorter height */
+    font-size: 1.5rem !important; /* Increase the font size */ 
+    text-align: right !important; /* Align text to the right */ 
+    font-weight: bold !important; 
+    padding: 0 15px 0 0 !important; /* Add a small right padding */
+  
+  }
+    
+  .custom-header-add-tasks{
+    --ion-toolbar-height: 80px;
+  }
+  
+  .ion-title-add-tasks {
+    font-size: 1.5rem !important; 
+    text-align: right !important; 
+    font-weight: bold !important; 
+    padding: 0 15px 0 0 !important; 
+  }
+  
+  /* Header content styles */
+  .header-content { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-end; 
+    padding: 0 15px 0 0 !important; 
+    width: 100%;
+  }
+  
+  .header-title {
+    font-size: 1.5rem; /* Larger font size for the title */
+    font-weight: bold;
+  }
+  
+  .header-date {
+    font-size: 0.8rem; /* Regular font size for the date */
+    text-align: right; 
+    padding-right: 0 !important; 
+    margin-right: 0 !important;
+  }
+  
+  .header-today {
+    font-weight: bold;
+    padding-right: 0 !important; 
+    margin-right: 0 !important;
+  }

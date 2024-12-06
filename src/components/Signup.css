@@ -1,0 +1,54 @@
+/* Signup.css */
+
+.signup-image {
+    width: 100%; 
+    height: auto;
+    margin-bottom: 0px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    text-align: center;
+    color: #000000; 
+    margin-bottom: 15px !important;
+    font-size: 16px !important;
+    font-family: 'Inter', sans-serif; 
+}
+.signup-ion-padding {
+    --padding-top: 30px !important; 
+}
+.signup-button-custom {
+    background-color: #608FE9 !important;
+    color: white !important;
+    margin-top: 20px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    width: 50% !important;
+    border-radius: 5px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ion-button.signup-button-custom {
+    --border-radius: 12px !important; 
+    margin-top: 20px !important;
+    --background: #608FE9 !important; /* Ensuring the Ionic CSS variable is set */
+  
+}
+/* Styling for the loginbutton */
+.login-button {
+    border-color: #608FE9; 
+    color: #4A90E2;
+    margin-top: 10px;
+    font-size: 14px; 
+    font-family: 'Arial', sans-serif; 
+    width: 50% !important;
+    margin-left: auto;
+    margin-right: auto;
+    --border-radius: 12px; /* Use Ionic's border-radius variable */
+    display: block; 
+    text-align: center;
+}

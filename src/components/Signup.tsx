@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonItem, IonText } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonInput, IonButton, IonText, IonItem, IonImg } from '@ionic/react';
 import { auth } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useHistory } from 'react-router-dom';
+import '/src/components/Signup.css'; 
 
 const Signup: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -34,25 +35,25 @@ const Signup: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Sign Up to Manage Your Tasks</IonTitle>
-                </IonToolbar>
+                
             </IonHeader>
-            <IonContent className="ion-padding">
+            <IonContent className="signup-ion-padding">
+                <IonImg src="/signup.png" alt="Signup Illustration" className="signup-image"/>
+                <h2><b>Welcome! Join ToDo to start organising your life.</b></h2>
                 <IonItem>
-                    <IonLabel position="floating">Email</IonLabel>
                     <IonInput 
                         type="email" 
                         value={email} 
+                        placeholder="Email" // Use placeholder instead of floating label
                         onIonChange={(e) => setEmail(e.detail.value!)} 
                         required 
                     />
                 </IonItem>
                 <IonItem>
-                    <IonLabel position="floating">Password</IonLabel>
                     <IonInput 
                         type="password" 
                         value={password} 
+                        placeholder="Password" // Use placeholder instead of floating label
                         onIonChange={(e) => setPassword(e.detail.value!)} 
                         required 
                     />
@@ -64,13 +65,13 @@ const Signup: React.FC = () => {
                 {/* Success message display */}
                 {successMessage && <IonText color="success">{successMessage}</IonText>}
 
-                <IonButton expand="full" onClick={handleSignup}>Sign Up</IonButton>
+                <IonButton expand="block" onClick={handleSignup} className="signup-button-custom">Sign Up</IonButton>
 
                 {/* Add Login Link */}
                 <IonText className="ion-text-center">
                     <p>Already have an account?</p>
                 </IonText>
-                <IonButton expand="full" fill="outline" onClick={redirectToLogin}>Login</IonButton>
+                <IonButton expand="full" fill="outline" onClick={redirectToLogin} className="login-button">Login</IonButton>
 
             </IonContent>
         </IonPage>
